@@ -1,33 +1,34 @@
 version: "3.1"
 
+actions:
+  - action_hello_world
+
 intents:
-  - greet
-  - goodbye
-  - affirm
-  - deny
-  - mood_great
-  - mood_unhappy
-  - bot_challenge
+  - check
+
+entities:
+  - message
+
+slots:
+  user_message:
+    type: text
+    influence_conversation: false
+    initial_value: 5
+    mappings:
+    - type: from_entity
+      entity: message
+      intent: check
+
 
 responses:
   utter_greet:
   - text: "Hey! How are you?"
 
-  utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
-
-  utter_did_that_help:
-  - text: "Did that help you?"
-
-  utter_happy:
-  - text: "Great, carry on!"
-
   utter_goodbye:
   - text: "Bye"
 
-  utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
+  utter_answer:
+  - text: "{{answer}}"
 
 session_config:
   session_expiration_time: 60
