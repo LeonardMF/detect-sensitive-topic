@@ -1,34 +1,52 @@
 version: "3.1"
 
 actions:
-  - action_hello_world
+  - action_sensitiv_topic
 
 intents:
-  - check
-
-entities:
-  - message
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
 
 slots:
-  user_message:
-    type: text
-    influence_conversation: false
-    initial_value: 5
+  sensitive_topic_flag:
+    type: bool
+    initial_value: false
     mappings:
-    - type: from_entity
-      entity: message
-      intent: check
-
+    - type: custom
+      action: action_sensitiv_topic
 
 responses:
   utter_greet:
   - text: "Hey! How are you?"
 
+  utter_cheer_up:
+  - condition:
+    - type: slot
+      name: sensitive_topic_flag
+      value: True
+    text: "Maybe you better talk to a human."
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+
+  utter_happy:
+  - text: "Great, carry on!"
+
   utter_goodbye:
   - text: "Bye"
 
-  utter_answer:
-  - text: "{{answer}}"
+  utter_iamabot:
+  - text: "I am a bot, powered by Rasa."
+
+  utter_fallback:
+  - text: "Sensitive topic detected: {sensitive_topic_flag}"
 
 session_config:
   session_expiration_time: 60
